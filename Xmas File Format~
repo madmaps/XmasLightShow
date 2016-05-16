@@ -1,0 +1,56 @@
+ .xmas File Format
+
+byte0 - byte 3 = file Type xmas
+byte4 = Large Version Number XX.
+byte5 = Small Version Number .XX
+byte6 - byte7 = Overall Filesize
+byte8 = number of Chunks
+
+byte9 =chunkID
+byte10 - byte11 = sizeOfChunk
+byte12 - (sizeOfChunk-2) = Data
+
+Chunks
+
+Track ID - 0x01
+byte0 = chunkID
+byte1 - byte2 = sizeOfChunk
+byte3 = sizeOfChannels
+byte4 - byte5 = channelLength
+byte6 - (sizeOfChunk-2) = Data
+
+Color ID - 0x02
+byte0 = chunkID
+byte1 - byte2 = sizeOfChunk
+byte3 - (sizeOfChunk-2) = Data
+
+Image ID - 0x03
+byte0 = chunkID
+byte1 - byte2 = sizeOfChunk
+byte3 - (sizeOfChunk-2) = fileName
+
+Audio ID - 0x04
+byte0 = chunkID
+byte1 - byte2 = sizeOfChunk
+byte3 - (sizeOfChunk-2) = fileName
+
+Visual ID - 0x05
+byte0 = chunkID
+byte1 - byte2 = sizeOfChunk
+byte3 = numberOfChannels
+byte4 = sizeofFirstChannel
+byte5 - sizeOfFirstChannel = Data
+
+Module ID - 0x06
+byte0 = chunkID
+byte1 - byte2 = sizeOfChunk
+byte3 = numberOfMods
+byte4 = numberOfChannels
+byte5 = modID
+byte6 = numberOfModChannels
+byte7 - numberOfModChannels = Data
+
+
+
+
+ 
