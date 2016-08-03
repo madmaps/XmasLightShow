@@ -1,6 +1,7 @@
 // Christmas Shift Register Sketch
 // Matt Applin
 
+const byte MODID = 0x12;
 //Connect pin 5(Ard) to pin 12(74HC595 - STCP) 
 const byte ST_REG_PIN_CLK = 5;
 
@@ -13,6 +14,9 @@ const byte SRL_DTA_INP = 7;
 char data[256];
 int incomingByte=0;
 int i=0;
+int j=0;
+int numberOfMods=0;
+int byteCounter=0;
 
 
 
@@ -29,6 +33,7 @@ void loop()
   
   if(Serial.available() >0)
   {
+    byteCounter=0;
     i=0;
     while(Serial.available())
     {
@@ -36,17 +41,33 @@ void loop()
       delay(2);
       i++;
     }
-    incomingByte=(int)data[0];
-    digitalWrite(ST_REG_PIN_CLK,LOW);
-    i=0;
-    while(i<incomingByte)
+    numberOfMods = (int)data[0];
+    byteCounter++;
+    j=0;
+    while(j<numberOfMods)
     {
-      shiftOut(SRL_DTA_INP,SHFT_REG_CLK_INP,0,data[i+1]);
-      i++;
+      incomingByte = (int)data[byteCounter+1];
+      if(MODID==data[byteCounter])
+      {
+        digitalWrite(ST_REG_PIN_CLK,LOW);
+        i=0;
+        while(i<incomingByte)
+        {
+          shiftOut(SRL_DTA_INP,SHFT_REG_CLK_INP,0,data[byteCounter+2]);
+          byteCounter++;
+          i++;
+        }
+        digitalWrite(ST_REG_PIN_CLK,HIGH);
+      }
+      else
+      {
+        byteCounter+=incomingByte+2;
+      }
+      j++;
     }
-    digitalWrite(ST_REG_PIN_CLK,HIGH);
   }
 }
+
 
 
 
